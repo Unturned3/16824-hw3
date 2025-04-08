@@ -1,31 +1,39 @@
 import numpy as np
-from utils import  decode_captions
+from utils import decode_captions
 
 import torch
 
 
 class Trainer(object):
-
-    def __init__(self, model, train_dataloader, val_dataloader, learning_rate = 0.001, num_epochs = 10, print_every = 10, verbose = True, device = 'cuda'):
-      
+    def __init__(
+        self,
+        model,
+        train_dataloader,
+        val_dataloader,
+        learning_rate=0.001,
+        num_epochs=10,
+        print_every=10,
+        verbose=True,
+        device='cuda',
+    ):
         self.model = model
         self.train_dataloader = train_dataloader
         self.val_dataloader = val_dataloader
         self.learning_rate = learning_rate
         self.num_epochs = num_epochs
         self.print_every = print_every
-        self.verbose = verbose 
+        self.verbose = verbose
         self.loss_history = []
         self.val_loss_history = []
         self.device = device
         self.optim = torch.optim.Adam(self.model.parameters(), self.learning_rate)
 
     def loss(self, predictions, labels):
-        #TODO - Compute cross entropy loss between predictions and labels. 
-        #Make sure to compute this loss only for indices where label is not the null token.
-        #The loss should be averaged over batch and sequence dimensions. 
+        # TODO - Compute cross entropy loss between predictions and labels.
+        # Make sure to compute this loss only for indices where label is not the null token.
+        # The loss should be averaged over batch and sequence dimensions.
         return loss
-    
+
     def val(self):
         """
         Run validation to compute loss and BLEU-4 score.
@@ -42,7 +50,7 @@ class Trainer(object):
             num_batches += 1
 
         self.model.train()
-        return val_loss/num_batches
+        return val_loss / num_batches
 
     def train(self):
         """
@@ -59,11 +67,14 @@ class Trainer(object):
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
-                
+
                 epoch_loss += loss.detach().cpu().numpy()
                 num_batches += 1
-                
-            self.loss_history.append(epoch_loss/num_batches)
-            if self.verbose and (i +1) % self.print_every == 0:
+
+            self.loss_history.append(epoch_loss / num_batches)
+            if self.verbose and (i + 1) % self.print_every == 0:
                 self.val_loss_history.append(self.val())
-                print( "(epoch %d / %d) loss: %f" % (i+1 , self.num_epochs, self.loss_history[-1]))    
+                print(
+                    '(epoch %d / %d) loss: %f'
+                    % (i + 1, self.num_epochs, self.loss_history[-1])
+                )
