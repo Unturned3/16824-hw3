@@ -1,2 +1,11 @@
 [tool.ruff.format]                                                                      
 quote-style = "single"
+
+# Ignore these rules for now
+[tool.ruff]
+ignore = [
+    "F401",  # module imported but unused
+    #"F841",  # local variable 'x' is assigned to but never used
+    #"F403",  # 'from module import *' used; unable to detect undefined names
+    #"F405",  # name may be undefined, or defined from star imports: module
+]

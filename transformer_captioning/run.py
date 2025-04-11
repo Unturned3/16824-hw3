@@ -6,7 +6,10 @@ from transformer import TransformerDecoder
 from matplotlib import pyplot as plt
 
 set_all_seeds(42)  ### DO NOT CHANGE THIS LINE
-exp_name = 'case1'
+exp_name = 'case3'
+num_heads = 4
+num_layers = 6
+learning_rate = 1e-3
 
 train_dataset = CocoDataset(load_coco_data(max_train=1024), 'train')
 train_dataloader = DataLoader(train_dataset, batch_size=64)
@@ -21,8 +24,8 @@ transformer = TransformerDecoder(
     idx_to_word=train_dataset.data['idx_to_word'],
     input_dim=train_dataset.data['train_features'].shape[1],
     embed_dim=256,
-    num_heads=2,
-    num_layers=2,
+    num_heads=num_heads,
+    num_layers=num_layers,
     max_length=30,
     device=device,
 )
@@ -32,7 +35,7 @@ trainer = Trainer(
     train_dataloader,
     val_dataloader,
     num_epochs=100,
-    learning_rate=1e-4,
+    learning_rate=learning_rate,
     device=device,
 )
 
