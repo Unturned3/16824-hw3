@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+from torch.nn import functional as F
 from vit import ViT
 
 
@@ -62,8 +63,8 @@ class Trainer:
             - labels: PyTorch Tensor of shape (N,) giving labels for each input
         """
 
-        # TODO - Compute cross entropy loss between predictions and labels.
-        loss = None
+        # DONE - Compute cross entropy loss between predictions and labels.
+        loss = F.cross_entropy(predictions, labels)
 
         return loss
 
